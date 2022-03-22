@@ -10,9 +10,9 @@ services:
     networks:
       - dsne-django-nginx
     volumes:
-      - dsne-django-static:/usr/src/app/static
-      - ./django_project:/usr/src/app/django_project
-      - ./django_project/data:/usr/src/app/django_project/data
+      - ${PWD}/static:/usr/src/app/static
+      - ${PWD}/django_project:/usr/src/app/django_project
+      - ${PWD}/django_project/data:/usr/src/app/django_project/data
     ports:
       - 8801:8000
 
@@ -26,11 +26,26 @@ services:
     networks:
       - dsne-django-nginx
     volumes:
-      - dsne-django-static:/usr/src/app/static
+      - ${PWD}/static:/usr/src/app/static
     ports:
       - 9091:80
     depends_on:
       - django
+
+  elastic:
+    image: elasticsearch:7.17.0
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ${PWD}/elastic:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: "single-node"
+      xpack.security.enabled: "true"
+      ELASTIC_PASSWORD: "elastic"
+    ports:
+      - 9200:9200
 
 volumes:
   dsne-django-static:
