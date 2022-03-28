@@ -26,9 +26,9 @@ timeout = 300
 # term list lookup size
 chunkSize = 50000
 
-es = Elasticsearch(
-    [{"host": config.elastic_host, "port": config.elastic_port}],
-)
+elastic_connect_string = f"http://{config.elastic_host}:{config.elastic_port}"
+
+es = Elasticsearch([elastic_connect_string])
 
 textbase_data = os.path.join(config.dataPath, "textbase", "data/")
 

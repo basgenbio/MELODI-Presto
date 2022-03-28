@@ -11,7 +11,7 @@ dependencies:
   - gunicorn
   - djangorestframework
   - requests
-  - elasticsearch
+  - elasticsearch=7.17.0
   - numpy
   - scipy
   - pandas

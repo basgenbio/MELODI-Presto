@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import url, include
+from django.urls import path, re_path
+from django.conf.urls import include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 
@@ -45,23 +45,23 @@ urlpatterns = [
     path(r"app/sentence/<str:pmid>/", views.sentence, name="sentence-p"),
     ### API ###
     # https://github.com/axnsan12/drf-yasg
-    url(
+    re_path(
         r"^docs(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),
-    url(
+    re_path(
         r"^docs/$",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    url(
+    re_path(
         r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
     ),
     # status
-    url(r"api/status/", views.StatusView, name="status-get-np"),
-    url(r"api/overlap/", views.OverlapPostView, name="overlap-post"),
-    url(r"api/sentence/", views.SentencePostView, name="sentence-post"),
-    url(r"api/enrich/", views.EnrichPostView, name="enrich-post"),
+    re_path(r"api/status/", views.StatusView, name="status-get-np"),
+    re_path(r"api/overlap/", views.OverlapPostView, name="overlap-post"),
+    re_path(r"api/sentence/", views.SentencePostView, name="sentence-post"),
+    re_path(r"api/enrich/", views.EnrichPostView, name="enrich-post"),
     # url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]

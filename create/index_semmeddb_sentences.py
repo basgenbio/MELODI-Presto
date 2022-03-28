@@ -58,18 +58,16 @@ def create_index(index_name, shards=3):
                 "index.max_result_window": 1000,
             },
             "mappings": {
-                "_doc": {
-                    "properties": {
-                        "SENTENCE_ID": {"type": "keyword"},
-                        "PMID": {"type": "keyword"},
-                        "TYPE": {"type": "keyword"},
-                        "NUMBER": {"type": "keyword"},
-                        "SENT_START_INDEX": {"type": "integer"},
-                        "SENT_END_INDEX": {"type": "integer"},
-                        # "SECTION_HEADER": {"type": "keyword"},
-                        # "NORMALIZED_SECTION_HEADER": {"type": "keyword"},
-                        "SENTENCE": {"type": "text"},
-                    }
+                "properties": {
+                    "SENTENCE_ID": {"type": "keyword"},
+                    "PMID": {"type": "keyword"},
+                    "TYPE": {"type": "keyword"},
+                    "NUMBER": {"type": "keyword"},
+                    "SENT_START_INDEX": {"type": "integer"},
+                    "SENT_END_INDEX": {"type": "integer"},
+                    # "SECTION_HEADER": {"type": "keyword"},
+                    # "NORMALIZED_SECTION_HEADER": {"type": "keyword"},
+                    "SENTENCE": {"type": "text"},
                 }
             },
         }

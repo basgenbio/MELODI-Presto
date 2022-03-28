@@ -22,7 +22,9 @@ from loguru import logger
 # OBJECT_SEMTYPE: The semantic type of the object of the predication
 # OBJECT_NOVELTY: The novelty of the object of the predication
 
-es = Elasticsearch([{"host": config.elastic_host, "port": config.elastic_port}],)
+es = Elasticsearch(
+    [{"host": config.elastic_host, "port": config.elastic_port, "scheme": "http"}]
+)
 
 predIgnore = [
     "PART_OF",
@@ -72,20 +74,18 @@ def create_index(index_name, shards=5):
                 "index.max_result_window": 1000000,
             },
             "mappings": {
-                "_doc": {
-                    "properties": {
-                        "PREDICATION_ID": {"type": "keyword"},
-                        "SENTENCE_ID": {"type": "keyword"},
-                        "PMID": {"type": "keyword"},
-                        "PREDICATE": {"type": "keyword"},
-                        "SUBJECT_CUI": {"type": "keyword"},
-                        "SUBJECT_NAME": {"type": "keyword"},
-                        "SUBJECT_SEMTYPE": {"type": "keyword"},
-                        "OBJECT_CUI": {"type": "keyword"},
-                        "OBJECT_NAME": {"type": "keyword"},
-                        "OBJECT_SEMTYPE": {"type": "keyword"},
-                        "SUB_PRED_OBJ": {"type": "keyword"},
-                    }
+                "properties": {
+                    "PREDICATION_ID": {"type": "keyword"},
+                    "SENTENCE_ID": {"type": "keyword"},
+                    "PMID": {"type": "keyword"},
+                    "PREDICATE": {"type": "keyword"},
+                    "SUBJECT_CUI": {"type": "keyword"},
+                    "SUBJECT_NAME": {"type": "keyword"},
+                    "SUBJECT_SEMTYPE": {"type": "keyword"},
+                    "OBJECT_CUI": {"type": "keyword"},
+                    "OBJECT_NAME": {"type": "keyword"},
+                    "OBJECT_SEMTYPE": {"type": "keyword"},
+                    "SUB_PRED_OBJ": {"type": "keyword"},
                 }
             },
         }
@@ -101,8 +101,8 @@ def index_predicate_data(predicate_data, concept_data, index_name):
     chunkSize = 100000
     pmids = []
 
-    print('Reading',predicate_data)
-    df = pd.read_csv(predicate_data, encoding="ISO-8859-1",low_memory=False)
+    print("Reading", predicate_data)
+    df = pd.read_csv(predicate_data, encoding="ISO-8859-1", low_memory=False)
     col_names = [
         "PREDICATION_ID",
         "SENTENCE_ID",
@@ -131,7 +131,10 @@ def index_predicate_data(predicate_data, concept_data, index_name):
     logger.info(df.shape)
 
     # filter on types
-    df = df[(df["SUBJECT_SEMTYPE"].isin(typeFilterList)) & (df["OBJECT_SEMTYPE"].isin(typeFilterList))]
+    df = df[
+        (df["SUBJECT_SEMTYPE"].isin(typeFilterList))
+        & (df["OBJECT_SEMTYPE"].isin(typeFilterList))
+    ]
     logger.info(df.shape)
 
     # use generic concept file instead of novelty columns
@@ -143,7 +146,7 @@ def index_predicate_data(predicate_data, concept_data, index_name):
     logger.info(df.shape)
 
     # remove last three cols
-    #df.drop(columns=["x", "y", "z"], inplace=True)
+    # df.drop(columns=["x", "y", "z"], inplace=True)
 
     for i, row in df.iterrows():
         counter += 1

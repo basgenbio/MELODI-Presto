@@ -13,16 +13,10 @@ import os
 batch_size = 100000
 index_name = config.semmed_predicate_index
 
-url = (
-    "http://"
-    + config.elastic_host
-    + ":"
-    + config.elastic_port
-    + "/"
-    + index_name
-    + "/_search/"
-)
-headers = {"Content-Type": "application/json"}
+url = f"http://{config.elastic_host}:{config.elastic_port}/{index_name}/_search/"
+headers = {
+    "Content-Type": "application/json",
+}
 
 # initial query
 # curl -X GET "localhost:9200/semmeddb/_search?pretty" -H 'Content-Type: application/json' -d '{ "aggs" : { "my_buckets" : { "composite": { "size":100, "sources": [{"sub-pred-obj":{"terms" : { "field" : "SUB_PRED_OBJ"}}} ] }}}} '

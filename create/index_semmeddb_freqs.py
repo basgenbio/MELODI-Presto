@@ -38,11 +38,9 @@ def create_index(index_name, shards=3):
                 "index.max_result_window": 1000000,
             },
             "mappings": {
-                "_doc": {
-                    "properties": {
-                        "SUB_PRED_OBJ": {"type": "keyword"},
-                        "frequency": {"type": "integer"},
-                    }
+                "properties": {
+                    "SUB_PRED_OBJ": {"type": "keyword"},
+                    "frequency": {"type": "integer"},
                 }
             },
         }

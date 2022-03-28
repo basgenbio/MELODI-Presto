@@ -41,14 +41,12 @@ def create_index(index_name, shards=3):
                 "index.max_result_window": 1000,
             },
             "mappings": {
-                "_doc": {
-                    "properties": {
-                        "PMID": {"type": "keyword"},
-                        "ISSN": {"type": "keyword"},
-                        "DP": {"type": "keyword"},
-                        "EDAT": {"type": "keyword"},
-                        "PYEAR": {"type": "integer"},
-                    }
+                "properties": {
+                    "PMID": {"type": "keyword"},
+                    "ISSN": {"type": "keyword"},
+                    "DP": {"type": "keyword"},
+                    "EDAT": {"type": "keyword"},
+                    "PYEAR": {"type": "integer"},
                 }
             },
         }
